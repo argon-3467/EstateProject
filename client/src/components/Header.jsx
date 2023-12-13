@@ -1,9 +1,4 @@
 import React from 'react';
-import Home from '../assets/Home';
-import SignIn from '../assets/SignIn';
-import SignUp from '../assets/SignUp';
-import Profile from '../assets/SignUp';
-import About from '../assets/About';
 import {FaSearch} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
