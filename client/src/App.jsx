@@ -5,10 +5,12 @@ import SignIn from './assets/SignIn';
 import SignUp from './assets/SignUp';
 import Profile from './assets/SignUp';
 import About from './assets/About';
+import Header from './components/Header';
 
 export default function App() {
   return (
     <BrowserRouter>
+    <Header></Header>
     <Routes>
       <Route path='/' element ={<Home></Home>}></Route>
       <Route path='/profiles' element ={<Profile></Profile>}></Route>
