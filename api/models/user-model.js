@@ -19,8 +19,8 @@ const UserSchema = new mongoose.Schema({
 {
     timestamps: true
 }
-)
-
+)   
+//    |->This (User) name can be anything. It has nothing to do with the name of collection in database
 const User = new mongoose.model('User', UserSchema);
 
 export default User;
