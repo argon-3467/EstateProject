@@ -7,6 +7,12 @@ const signup = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const hashedPassword = bcryptjs.hashSync(password, 10);
+    // if(password != null){
+    //    hashedPassword = bcryptjs.hashSync(password, 10);
+    // }
+    // else{
+    //     hashedPassword  = '';
+    // }
     const newUser = new User({username, email, password: hashedPassword});
     try {
         await newUser.save();
