@@ -46,12 +46,23 @@ export default function SignUp() {
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl text-center font-semibold my-7'>Sign Up</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-      <input type = 'text' placeholder='username' className='border p-3 rounded-lg' id='username'
-      onChange={handleChange}></input>
-      <input type = 'text' placeholder='email' className='border p-3 rounded-lg' id='email'
-      onChange={handleChange}></input>
-      <input type = 'text' placeholder='password' className='border p-3 rounded-lg' id='password'
-      onChange={handleChange}></input>
+      <input type = 'text' 
+             placeholder='username' 
+             className='border p-3 
+             rounded-lg' 
+             id='username'
+             onChange={handleChange}></input>
+      <input type = 'text' 
+             placeholder='email' 
+             className='border p-3 
+             rounded-lg' 
+             id='email'
+             onChange={handleChange}></input>
+      <input type = 'password' 
+             placeholder='password' 
+             className='border p-3 rounded-lg' 
+             id='password'
+             onChange={handleChange}></input>
       <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3
       uppercase hover:opacity-90'>
         {loading ? 'Loading' : 'SIGN UP'}</button>
@@ -62,7 +73,7 @@ export default function SignUp() {
         <span className='text-blue-700'>Sign In</span>
       </Link>
       </div>
-      {error && <p className='text-red-500 mt-10'>{error}</p>}
+      {error && <p className='text-red-500 mt-8 font-bold text-lg'>{error}</p>}
     </div>
   )
 }
