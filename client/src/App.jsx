@@ -1,11 +1,13 @@
 import React from 'react';
 import {BrowserRouter, Route, Router, Routes} from 'react-router-dom';
-import Home from './assets/Home';
+import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 //import Profile from './assets/SignUp';
-import About from './assets/About';
+import About from './pages/About';
 import Header from './components/Header';
+import Profile from './pages/Profile';
+import PrivateRoute from './components/PrivateRoute';
 
 export default function App() {
   return (
@@ -16,6 +18,9 @@ export default function App() {
       <Route path='/about' element ={<About></About>}></Route>
       <Route path='/Signin' element ={<SignIn></SignIn>}></Route>
       <Route path='/Signup' element ={<SignUp></SignUp>}></Route>
+      <Route element ={<PrivateRoute></PrivateRoute>}>
+      <Route path='/profile' element ={<Profile></Profile>}></Route>
+      </Route>
     </Routes>
     </BrowserRouter>
   )
