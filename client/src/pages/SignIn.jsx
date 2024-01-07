@@ -28,7 +28,7 @@ export default function SignIn() {
     })
     //res.json() returns promise hence need to use await
     const data = await res.json();
-    if(data.success == false){
+    if(data.success === false){
       dispatch(signInFailure(data.message));
       return;
     }
