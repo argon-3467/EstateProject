@@ -55,7 +55,7 @@ export default function SignIn() {
                id='password'
                onChange={handleChange}></input>
         <button className='bg-slate-600 text-white rounded-lg p-3 hover:opacity-60'>
-        {loading ? 'Loading' : 'SIGN IN'}</button>
+        {loading ? 'LOADING...' : 'SIGN IN'}</button>
         <OAuth />
       </form>
       <div className='flex gap-4'>

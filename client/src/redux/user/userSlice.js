@@ -10,7 +10,7 @@ const userSlice = createSlice({
     //name to identify slice
     name: 'user',
     initialState,
-    //keys in this object will be used as actiontypes that will be dispatched via dispatcher()
+    //keys in this reducer object will be used as actiontypes that will be dispatched via dispatcher()
     reducers: {
         signInStart: (state) => {
             state.loading = true;
@@ -23,12 +23,30 @@ const userSlice = createSlice({
         signInFailure: (state, action) => {
             state.error = action.payload;
             state.loading = false
+        },
+        updateUserStart: (state) => {
+            state.loading = true
+        },
+        updateUserSuccess: (state, action) => {
+            state.currentUser = action.payload,
+            state.loading = false,
+            state.error = null
+        },
+        updateUserFailure: (state, action) => {
+            state.error = action.payload,
+            state.loading = false
         }
     }
 })
 
 //Exporting individual functions
-export const {signInStart, signInSuccess, signInFailure} = userSlice.actions;
+export const {
+    signInStart, 
+    signInSuccess, 
+    signInFailure, 
+    updateUserFailure, 
+    updateUserStart, 
+    updateUserSuccess} = userSlice.actions;
 // console.log("Refer below to .reducer output");
 //console.log(userSlice);
 export default userSlice.reducer;
