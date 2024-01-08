@@ -2,7 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage';
 import { app } from '../firebase';
-import { updateUserFailure, updateUserStart, updateUserSuccess, deleteUserFailure, deleteUserStart, deleteUserSuccess } from "../redux/user/userSlice";
+import { updateUserFailure, updateUserStart, updateUserSuccess, 
+  deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserFailure, 
+  signOutUserStart, signInSuccess, signOutUserSuccess } from "../redux/user/userSlice";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
@@ -53,16 +55,16 @@ export default function Profile(){
   }
 
   const handleDelete = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     confirmAlert({
       customUI: ({onClose}) => {
         return(
-          <div className="custom-ui">
+          <div className="custom-ui p-4 max-w-lg mx-auto">
             <h1 className="font-bold text-lg">Are you sure, you want to DELETE your account?</h1>
             <p>By Clicking on "YES", your account will be deleted.<br></br>If you do not want your account to be deleted, click on "NO"</p>
             <div className="flex justify-between mt-4">
-            <button className="bg-red-500 rounded-lg p-3 font-semibold" onClick={onClose}>NO</button>
-            <button className="bg-blue-500 rounded-lg p-3 font-semibold" onClick={() => {
+            <button className="bg-red-600 rounded-lg p-2 font-semibold hover:bg-red-300 px-5" onClick={onClose}>NO</button>
+            <button className="bg-blue-500 rounded-lg p-2 font-semibold hover:bg-blue-300" onClick={() => {
               handleUserDeletion();
               onClose();
             }}> Yes, Delete It!</button>
@@ -89,6 +91,24 @@ export default function Profile(){
     }
     catch(error){
       dispatch(deleteUserFailure(error.message));
+    }
+  }
+
+  const handleSignOut = async() => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch('/api/auth/signout', {
+        method: 'GET'
+      })
+      const data = await res.json();
+      if(data.success === false){
+        dispatch(signOutUserFailure(data.message));
+        return;
+      }
+      dispatch(signOutUserSuccess(data));
+    } 
+    catch (error) {
+      dispatch(signOutUserFailure(data.message));
     }
   }
 
@@ -150,8 +170,8 @@ export default function Profile(){
             disabled:opacity-60" >{loading ? 'LOADING' : 'UPDATE'}</button>
       </form>
       <div className="flex justify-between mt-4">
-        <span  onClick={handleDelete} className="text-red-700 cursor-pointer">Delete Account</span>
-        <span className="text-red-700 cursor-pointer">Sign Out</span>
+        <span onClick={handleDelete} className="text-red-700 cursor-pointer">Delete Account</span>
+        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
       {/* <p className="text-red-700 mt-5">{error ? error : ''}</p> */}
       <p className="text-green-500 mt-5">{(updateSuccess) ? 'User details updated succesfully' : ''}</p>
