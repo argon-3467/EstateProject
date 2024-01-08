@@ -7,7 +7,7 @@ import { updateUserFailure, updateUserStart, updateUserSuccess,
   signOutUserStart, signInSuccess, signOutUserSuccess } from "../redux/user/userSlice";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-
+import {Link} from 'react-router-dom';
 
 export default function Profile(){
   const [file, setFile] = useState(undefined);
@@ -166,8 +166,10 @@ export default function Profile(){
         <button 
             disabled={loading}
             className="bg-slate-700 text-white 
-            rounded-lg p-3 hover:opacity-95 
+            rounded-lg p-3 hover:opacity-70
             disabled:opacity-60" >{loading ? 'LOADING' : 'UPDATE'}</button>
+            <Link className="bg-green-700 p-3 rounded-lg text-white text-center hover:opacity-70" to={'/create-listing'}>CREATE LISTING
+            </Link>
       </form>
       <div className="flex justify-between mt-4">
         <span onClick={handleDelete} className="text-red-700 cursor-pointer">Delete Account</span>
