@@ -4,7 +4,7 @@ import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/st
 import { app } from '../firebase';
 import { updateUserFailure, updateUserStart, updateUserSuccess, 
   deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserFailure, 
-  signOutUserStart, signInSuccess, signOutUserSuccess } from "../redux/user/userSlice";
+  signOutUserStart, signOutUserSuccess } from "../redux/user/userSlice";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import {Link} from 'react-router-dom';
@@ -17,6 +17,7 @@ export default function Profile(){
   const [formData, setFormData] = useState({});
   const fileRef = useRef(null)
   const {currentUser, loading, error} = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   // console.log(formData);
   useEffect(() => {
@@ -121,7 +122,7 @@ export default function Profile(){
       (snapshot) => {
         setFileUploadError(false);
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setFilePerc(Math.round(progress));
+        setFilePerc(Math.round(progress)); //0->14
         // console.log(filePerc);
     },
     (error) => {
@@ -180,3 +181,4 @@ export default function Profile(){
     </div>
   )
 }
+
