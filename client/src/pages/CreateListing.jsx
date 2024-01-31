@@ -163,7 +163,7 @@ export default function CreateListing() {
                 onChange={handleChange} value={formData.name}></input>
 
                 <input type='text' placeholder='Description' className='border p-3
-                rounded-lg' id='description' maxLength='62' minLength='10' required
+                rounded-lg' id='description' maxLength='1000' minLength='10' required
                 onChange={handleChange} value={formData.description}></input>
 
                 <input type='text' placeholder='Address' className='border p-3
@@ -216,7 +216,7 @@ export default function CreateListing() {
                         onChange={handleChange} value={formData.regularPrice}></input>
                         <div className='flex flex-col items-center'>
                         <p>Regular Price</p>
-                        <span className='text-xs'>(INR/month)</span>
+                        <span className='text-xs'>(&#x20b9;/month)</span>
                         </div>
                     </div>
                     {formData.offer && (
@@ -226,7 +226,7 @@ export default function CreateListing() {
                         onChange={handleChange} value={formData.discountedPrice}></input>
                         <div className='flex flex-col items-center'>
                         <p>Discounted Price</p>
-                        <span className='text-xs'>(INR/month)</span>
+                        <span className='text-xs'>(&#x20b9;/month)</span>
                     </div>
                     </div>
                     )}

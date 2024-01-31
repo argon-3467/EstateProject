@@ -28,6 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "nodemon": "^3.0.2",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "swiper": "^11.0.5"
   }
 }
