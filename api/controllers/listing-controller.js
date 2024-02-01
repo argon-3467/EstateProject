@@ -62,6 +62,9 @@ export const getListing = async (req, res, next) => {
 
 export const getListings = async (req,res,next) => {
     try {
+       const searchTerm = req.query.searchTerm || '';
+       const sort = req.query.sort || 'createdAt';
+       const order = req.query.order || 'desc';
        const limit = parseInt(req.query.limit) || 10;
        const startIndex = parseInt(req.query.startIndex) || 0;
        let offer = req.query.offer;
@@ -83,10 +86,6 @@ export const getListings = async (req,res,next) => {
        if(type === undefined || type === 'all'){
             type = {$in: ['rent', 'sale']}
        }
-
-       const searchTerm = req.query.searchTerm || '';
-       const sort = req.query.sort || 'createdAt';
-       const order = req.query.order || 'desc';
 
        const listings = await Listing.find({
             name: {$regex: searchTerm, $options: 'i'},
