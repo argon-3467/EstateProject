@@ -4,9 +4,10 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import SwiperCore from 'swiper';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css/bundle';
-import {FaBath, FaBed, FaChair, FaMapMarkedAlt, FaMapMarkerAlt, FaParking, FaShare} from 'react-icons/fa';
+import {FaBath, FaBed, FaChair, FaMapMarkerAlt, FaParking, FaShare} from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import Contact from '../components/Contact';
+import { ShimmerThumbnail} from 'react-shimmer-effects'
 
 export default function Listing() {
     SwiperCore.use([Navigation]);
@@ -43,7 +44,7 @@ export default function Listing() {
     }, [params.listingId])
   return (
     <main>
-        {loading && <p className='text-center my-7 text-2xl'>Loading...</p>}
+        {loading && <ShimmerThumbnail height={650} />}
         {error && <p className='text-center my-7 text-2xl'>Something went wrong...</p>}
         {listing && !error && !loading && (
         <div>
@@ -100,7 +101,7 @@ export default function Listing() {
               )}
             </div>
             <p className='text-slate-800'>
-              <span className='font-semibold text-black'>Description - </span>
+              <span className='font-semibold'>Description - </span>
               {listing.description}
             </p>
             <ul className='text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6'>

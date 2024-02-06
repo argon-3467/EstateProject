@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import ListingItem from '../components/ListingItem';
+import {ShimmerPostList} from 'react-shimmer-effects'
+
 
 export default function Search() {
     const navigate = useNavigate();
@@ -108,7 +110,7 @@ export default function Search() {
     }
     return (
         <div className='flex flex-col md:flex-row'>
-            <div className='p-7 border-b-2 sm:border-r-2 md: min-h-screen'> 
+            <div className='p-7 border-b-2 sm:border-r-2'> 
                 <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
                     <div className="flex items-center gap-2">
                         <label className='whitespace-nowrap font-semibold'>Search Term: </label>
@@ -178,13 +180,14 @@ export default function Search() {
             <div className="flex-1">
                 <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>
                     Listings results...</h1>
+                    {loading && listings.length === 0 && (
+                        <ShimmerPostList postStyle="STYLE_ONE" col={3} row={2} gap={20} />  
+                    )}
                 <div className="p-7 flex flex-wrap gap-4">
                     {!loading && listings.length === 0 && (
                         <p className='text-xl text-slate-700'>No listings found!</p>
                     )}
-                    {loading && (
-                        <p className='text-xl text-slate-700 text-center w-full'>Loading....</p>
-                    )}
+                    
                     {!loading && listings && 
                         listings.map((listing) => (
                         <ListingItem key={listing._id} listing={listing}></ListingItem>
