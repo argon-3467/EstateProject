@@ -24,5 +24,10 @@ export default function About() {
       are dedicated to making that a reality for each and every one of our clients.
       </p>
     </div>
+    // <div className='text-center gap-4 p-3'>
+    //   <h1 className='font-semibold text-center p-10'>Hello, Welcome to Miss. Yashika's collection. You can donate <p className='text-red-500'>ROSES</p>to show some love to her.</h1>
+    //   <p className='p-4'> Want to donate? Do by clicking below</p>
+    //   <button className='bg-green-500 p-3 rounded-lg w-20'>Donate</button>
+    // </div>
   )
 }
