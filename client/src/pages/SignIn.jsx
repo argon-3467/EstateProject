@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
@@ -37,28 +37,28 @@ export default function SignIn() {
     navigate('/');
   }
   catch(error){
-    dispatch(signInFailure(data.message))
+    dispatch(signInFailure(error.message))
   }
 }
   return (
     <div className='max-w-lg mx-auto'>
-      <h1 className='text-3xl text-center font-semibold my-7'>Sign In</h1>
+      <h1 className='text-3xl text-center font-semibold my-7 dark:text-stone-50'>Sign In</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <input type='text' 
                placeholder='Email' 
-               className='p-3 border rounded-lg'
+               className='p-3 border rounded-lg  dark:text-stone-50 dark:bg-gray-800'
                id='email'
                onChange={handleChange}></input>
         <input type='password' 
                placeholder='Password' 
-               className='p-3 border rounded-lg'
+               className='p-3 border rounded-lg  dark:text-stone-50 dark:bg-gray-800'
                id='password'
                onChange={handleChange}></input>
         <button className='bg-slate-600 text-white rounded-lg p-3 hover:opacity-60'>
         {loading ? 'LOADING...' : 'SIGN IN'}</button>
         <OAuth />
       </form>
-      <div className='flex gap-4'>
+      <div className='flex gap-4 dark:text-stone-50'>
       <p>Dont have an account?</p>
       <Link to={'/signup'}>
         <span className='text-blue-700'>Sign Up</span>

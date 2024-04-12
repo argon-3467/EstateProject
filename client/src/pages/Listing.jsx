@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {Swiper, SwiperSlide} from 'swiper/react';
 import SwiperCore from 'swiper';
@@ -42,6 +42,95 @@ export default function Listing() {
         }
         fetchListing();   
     }, [params.listingId])
+  
+  const loadScript = (src) => {
+    try {
+        return new Promise((resolve) => {
+        let script = document.createElement("script");
+        script.src = src;
+        script.onload = () => {
+           resolve(true);
+        };
+        script.onerror = () => {
+           resolve(false);
+        };
+        document.body.appendChild(script);
+     })
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleRazorpayPayment = async () => {
+      const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+      if(!res){
+        alert("Razorpay SDK failed to load. Are you online?");
+        return;
+      }
+
+      const result = await fetch('/api/payment/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            price: listing.offer
+              ? listing.discountedPrice*100
+              : listing.regularPrice*100
+          })
+      })
+      if(!result){
+        alert("Server error. Are you online?");
+        return;
+      }
+      const {amount, id: order_id, currency} = await result.json();
+      // console.log('before handler function');
+      const options = {
+        key: "rzp_test_DLSiZGjwAq9TZv",     //have to hide this before push
+        amount: amount.toString(),
+        currency: currency,
+        name: "Kanina Estate",
+        description: "Test transaction",
+        order_id: order_id,
+        handler: async function(response){
+          console.log('inside handler function')
+          const data = {
+            orderCreationId: order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+            razorpaySignature: response.razorpay_signature,
+        };
+        // alert("Before sucess api");
+        const result = await fetch('/api/payment/success', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        const res = await result.json();
+        alert(res.msg);
+        console.log(res);
+        },
+        prefill: {
+          name: "Helium Kumar",
+          email: "heliumkumar@test.com",
+          contact: "+919000090000"
+        },
+        notes: {
+          address: "Kanina Haryana India"
+        },
+        theme: {
+          color: "#61dafb",
+        }
+      };
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.on('payment.failed', function (response){
+        alert(`${response.error.code} : ${response.error.description}`);
+      })
+      paymentObject.open();
+  }
   return (
     <main>
         {loading && <ShimmerThumbnail height={650} />}
@@ -78,7 +167,7 @@ export default function Listing() {
               Link copied!
             </p>
           )}
-          <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4'>
+          <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4  dark:text-stone-50'>
             <p className='text-2xl font-semibold'>
               {listing.name} - &#x20b9;
               {listing.offer
@@ -86,7 +175,7 @@ export default function Listing() {
                 : listing.regularPrice.toLocaleString('en-IN')}
               {listing.type === 'rent' && ' / month'}
             </p>
-            <p className='flex items-center text-slate-600  text-sm'>
+            <p className='flex items-center text-slate-600  text-sm  dark:text-stone-50 '>
               <FaMapMarkerAlt className='text-green-700' />
               {listing.address}
             </p>
@@ -100,12 +189,12 @@ export default function Listing() {
                 </p>
               )}
             </div>
-            <p className='text-slate-800'>
+            <p className='text-slate-800 dark:text-stone-50'>
               <span className='font-semibold'>Description - </span>
               {listing.description}
             </p>
-            <ul className='text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6'>
-              <li className='flex items-center gap-1 whitespace-nowrap '>
+            <ul className='text-green-700 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6'>
+              <li className='flex items-center gap-1 whitespace-nowrap'>
                 <FaBed className='text-lg' />
                 {listing.bedrooms > 1
                   ? `${listing.bedrooms} beds `
@@ -127,11 +216,14 @@ export default function Listing() {
               </li>
             </ul>
             {currentUser && listing.userRef !== currentUser._id && !contact && (
+              <div className='flex gap-4'>
+              <button onClick={handleRazorpayPayment} className='bg-green-700 p-3 rounded-lg text-white hover:opacity-90 w-1/2 uppercase'>Buy</button>
               <button
                 onClick={() => setContact(true)}
-                className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'
+                className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3 w-1/2 ' 
               >Contact Landlord
               </button>
+              </div>
             )}
             {
                 contact && <Contact listing={listing}></Contact>

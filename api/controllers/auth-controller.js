@@ -34,7 +34,7 @@ export const signin = async (req, res, next) => {
         //to remove password field from res OR a general method to remove some field from large object
         const {password: dummy , ...rem} = validUser._doc;
         //console.log(validUser);
-        res.cookie('access_token', token, {httpOnly: true}).status(200).json(rem);
+        res.cookie('access_token', token, {maxAge: 3600000, httpOnly: true}).status(200).json(rem);
     }
     catch(err){
         next(err);
@@ -47,7 +47,7 @@ export const google = async(req, res, next) => {
         if(user){
             const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
             const {password: dummy, ...rem} = user._doc;
-            res.cookie('access_token', token, {httpOnly: true}).status(200).json(rem);
+            res.cookie('access_token', token, {maxAge: 3600000, httpOnly: true}).status(200).json(rem);
         }
         else{
             const generatedPassword = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10);
@@ -60,7 +60,7 @@ export const google = async(req, res, next) => {
             await newUser.save();
             const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET);
             const {password: dummy, ...rem} = newUser._doc;
-            res.cookie('access_token', token, {httpOnly: true}).status(200).json(rem);
+            res.cookie('access_token', token, {maxAge: 3600000, httpOnly: true}).status(200).json(rem);
         }
     }
     catch(error){
@@ -70,10 +70,29 @@ export const google = async(req, res, next) => {
 
 export const signout = (req, res, next) => {
     try{
-        res.clearCookie('acces_token');
+        res.clearCookie('access_token');
         res.status(200).json('User successfully logged out');
     }
     catch(error){
+        next(error);
+    }
+}
+
+export const isActive = (req, res, next) => {
+    // console.log('req looks like: ');
+        const token = req.cookies.access_token;
+        if(!token){
+            return next(errorHandler(401, 'Unauthorized!'));
+        }
+        try {
+        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+            if(err){
+                return errorHandler(403, 'Forbidden!');
+            }
+            res.status(200).json('Success');
+        })
+    } 
+    catch (error) {
         next(error);
     }
 }

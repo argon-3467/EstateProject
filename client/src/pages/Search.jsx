@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import ListingItem from '../components/ListingItem';
-import {ShimmerPostList} from 'react-shimmer-effects'
-
+// import {ShimmerPostItem} from 'react-shimmer-effects'
+import ShimmerComponent from '../components/ShimmerComponent';
 
 export default function Search() {
     const navigate = useNavigate();
@@ -109,13 +109,13 @@ export default function Search() {
         setListings([...listings, ...data])
     }
     return (
-        <div className='flex flex-col md:flex-row'>
+        <div className='flex flex-col md:flex-row  dark:text-stone-50'>
             <div className='p-7 border-b-2 sm:border-r-2'> 
                 <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
                     <div className="flex items-center gap-2">
                         <label className='whitespace-nowrap font-semibold'>Search Term: </label>
                         <input type='text' id='searchTerm' placeholder='Search...' 
-                        className='border rounded-lg p-3 w-full'
+                        className='border rounded-lg p-3 w-full dark:text-stone-50 dark:bg-gray-800'
                         value={sidebardata.searchTerm}
                         onChange={handleChange}></input>
                     </div>
@@ -166,7 +166,7 @@ export default function Search() {
                         <select id='sort_order' 
                         onChange={handleChange}
                         defaultValue={'createdAt_desc'} 
-                        className='border rounded-lg p-3' >
+                        className='border rounded-lg p-3  dark:text-stone-50 dark:bg-gray-800' >
                             <option value={'regularPrice_desc'}>Price high to low</option>
                             <option value={'regularPrice_asc'}>Price low to high</option>
                             <option value={'createdAt_desc'}>Latest</option>
@@ -178,16 +178,18 @@ export default function Search() {
                 </form>
             </div>
             <div className="flex-1">
-                <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>
+                <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5  dark:text-stone-50'>
                     Listings results...</h1>
-                    {loading && listings.length === 0 && (
-                        <ShimmerPostList postStyle="STYLE_ONE" col={3} row={2} gap={20} />  
-                    )}
+                    {loading && 
+                        <div className="p-7 flex flex-wrap gap-4">
+                            <ShimmerComponent size={9} /> 
+                        </div>  
+                    }  
                 <div className="p-7 flex flex-wrap gap-4">
                     {!loading && listings.length === 0 && (
                         <p className='text-xl text-slate-700'>No listings found!</p>
                     )}
-                    
+                     
                     {!loading && listings && 
                         listings.map((listing) => (
                         <ListingItem key={listing._id} listing={listing}></ListingItem>

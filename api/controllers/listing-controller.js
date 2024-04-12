@@ -88,13 +88,13 @@ export const getListings = async (req,res,next) => {
        }
 
        const listings = await Listing.find({
-            name: {$regex: searchTerm, $options: 'i'},
-            // description: {$regex: searchTerm, $options: 'i'},
+            $or: [{name: {$regex: searchTerm, $options: 'i'}}, 
+            {description: {$regex: searchTerm, $options: 'i'}}],
             offer,
             furnished,
             parking,
             type
-       }).sort({[sort]: order}                          //syntax explaination of [sort]
+       }).sort({[sort]: order === 'asc' ? 1: -1}                          //syntax explaination of [sort]
        ).limit(limit).skip(startIndex)
        return res.status(200).json(listings);
     } 

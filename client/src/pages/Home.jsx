@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom';
 import { Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css/bundle';
 import SwiperCore from 'swiper';
 import {Navigation} from 'swiper/modules'
 import ListingItem from '../components/ListingItem';
-import { ShimmerThumbnail, ShimmerPostItem} from 'react-shimmer-effects'
+import { ShimmerThumbnail,} from 'react-shimmer-effects'
+import ShimmerComponent from '../components/ShimmerComponent';
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -53,8 +54,8 @@ export default function Home() {
   },[])
   return (
     <div>
-      <div className="flex flex-col gap-6 py-28 px-6 max-w-6xl mx-auto">
-        <h1 className='text-slate-700 font-bold text-3xl lg:text-6xl'>Find your next 
+      <div className="flex flex-col gap-6 py-28 px-6 max-w-6xl mx-auto ">
+        <h1 className='text-slate-700 font-bold text-3xl lg:text-6xl  dark:text-stone-50'>Find your next 
         <span className='text-slate-500'> perfect</span>
         <br></br> place with ease
         </h1>
@@ -82,34 +83,14 @@ export default function Home() {
         </Swiper>
       <div className="max-w-7xl mx-auto p-3 flex flex-col gap-8 my-10">
         {
-          offerListings.length === 0 && (<>
-          <div className="flex flex-wrap gap-4">
-          <div className='bg-white shadow-md hover:shadow-lg transition-shadow 
-                  overflow-hidden rounded-lg w-full sm:w-[300px]'>
-             <ShimmerPostItem card title text cta />
-          </div>
-          <div className='bg-white shadow-md hover:shadow-lg transition-shadow 
-                  overflow-hidden rounded-lg w-full sm:w-[300px]'>
-             <ShimmerPostItem card title text cta />
-          </div>
-          <div className='bg-white shadow-md hover:shadow-lg transition-shadow 
-                  overflow-hidden rounded-lg w-full sm:w-[300px]'>
-             <ShimmerPostItem card title text cta />
-          </div>
-          <div className='bg-white shadow-md hover:shadow-lg transition-shadow 
-                  overflow-hidden rounded-lg w-full sm:w-[300px]'>
-             <ShimmerPostItem card title text cta />
-          </div>
-          </div>
-          </>)
-
+          offerListings.length === 0 && <ShimmerComponent size={4} />
         }
         
         {
         offerListings && offerListings.length > 0 && (
             <div className="">
               <div className="my-3">
-                <h2 className='text-2xl font-semibold text-slate-600'>Recent Offers</h2>
+                <h2 className='text-2xl font-semibold text-slate-600 dark:text-stone-50'>Recent Offers</h2>
                 <Link className='text-sm text-blue-700 hover:underline' to={'/search?offer=true'}>Show more Offers</Link>
               </div>
               <div className="flex flex-wrap gap-4">
@@ -122,14 +103,14 @@ export default function Home() {
             </div>
           )
        }  
-          {/* {
-              rentListings.length === 0 && (<ShimmerPostList postStyle="STYLE_ONE" col={4} row={1} gap={30} />)
-          } */}
+          {
+          rentListings.length === 0 && <ShimmerComponent size={4}  />
+          }
           {
           rentListings && rentListings.length > 0 && (
             <div className="">
               <div className="my-3">
-                <h2 className='text-2xl font-semibold text-slate-600'>Recent Places available for Rent</h2>
+                <h2 className='text-2xl font-semibold text-slate-600  dark:text-stone-50'>Recent Places available for Rent</h2>
                 <Link className='text-sm text-blue-700 hover:underline' to={'/search?type=rent'}>Show more places for rent</Link>
               </div>
               <div className=" flex flex-wrap gap-4">
@@ -142,14 +123,14 @@ export default function Home() {
             </div>
           )
         }
-          {/* {
-            saleListings.length === 0 && (<ShimmerPostList postStyle="STYLE_ONE" col={4} row={1} gap={30} />)
-          } */}
+        {
+          saleListings.length === 0 && <ShimmerComponent size={4} />
+        }
           {
           saleListings && saleListings.length > 0 && (
             <div className="">
               <div className="my-3">
-                <h2 className='text-2xl font-semibold text-slate-600'>Recent Places available for Sale</h2>
+                <h2 className='text-2xl font-semibold text-slate-600  dark:text-stone-50'>Recent Places available for Sale</h2>
                 <Link className='text-sm text-blue-700 hover:underline' to={'/search?type=sale'}>Show more places for sale</Link>
               </div>
               <div className=" flex flex-wrap gap-4">

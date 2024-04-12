@@ -5,9 +5,10 @@ import userRouter from './routes/user-router.js';
 import authRouter from './routes/auth-router.js';
 import cookieParser from 'cookie-parser';
 import listingRouter from'./routes/listing-router.js';
+import paymentRouter from './routes/payment.js';
+import logger from 'morgan';
 
 dotenv.config();
-
 mongoose.connect(process.env.MONGO)
 .then(() => {
     console.log('Succesfully connected to MongoDB');
@@ -19,6 +20,7 @@ mongoose.connect(process.env.MONGO)
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(logger('dev'));
 
 app.listen(3000, () => {
     console.log('Server is running at port no 3000');
@@ -27,6 +29,7 @@ app.listen(3000, () => {
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
+app.use("/api/payment", paymentRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
