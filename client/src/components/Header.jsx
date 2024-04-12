@@ -35,6 +35,7 @@ export default function Header() {
     }
   }, [theme]);
 
+  //For Dark mode
   const handleClick = (theme) => {
     setTheme(theme);
     localStorage.setItem("theme", theme);
